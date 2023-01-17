@@ -1,13 +1,23 @@
-<?php get_header('home'); ?>
+<?php 
+get_header('home'); 
+
+$ID=$post->ID;
+$galeria = get_field('galeria',$ID); 
+?>
 
 <div class="swiper mySwiper" id="swiperclin_1">
     <div class="swiper-wrapper">
-        <div class="swiper-slide">
-            <img src="<?php bloginfo('template_url'); ?>/assets/img/home/clinica1.jpeg" style="width:100%" />
-        </div>
-        <div class="swiper-slide">
-            <img src="<?php bloginfo('template_url'); ?>/assets/img/home/clinica1.jpeg" style="width:100%" />
-        </div>
+        <?php
+              foreach ($galeria as $img){
+        ?>
+             <div class="swiper-slide">
+                  <img src="<?php echo $img  ?> "style="width:100%" />
+             </div>      
+    <?php 
+        }
+     ?>
+
+            
     </div>
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
