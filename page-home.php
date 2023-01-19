@@ -2,9 +2,15 @@
 get_header('home'); 
 $ID=$post->ID;
 $productos = get_field('productos',$ID);
-$clinicas = get_field('clinicas',$ID);
+//$clinicas = get_field('clinicas',$ID);
 $doctores = get_field('doctores',$ID);
-$imagen_fija = get_field('iamgen_fija',$ID);
+$imagen_fija = get_field('immgen_fija',$ID);
+
+$args = array('post_type' => 'clinicas_');
+$clinicas = new WP_Query($args);
+
+//$post_ = new WP_Query('post_type=clinicas_');
+
 ?>
 
 <div class="main-inner">
@@ -29,14 +35,6 @@ $imagen_fija = get_field('iamgen_fija',$ID);
 							}
 
 							?>
-							<div class="swiper-slide">
-								<div style="text-align: center; padding: 70px 20px;">
-									<img src="<?php bloginfo('template_url'); ?>/assets/img/home/product1.png" style="width:100%" />
-									<h4>Lorem ipsut</h4>
-									<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur, quasi necessitatibus</p>
-									<a href="<?php echo home_url(); ?>/detalle"><button class="btn btn-primary" type="button">Ver más</button></a>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -46,52 +44,47 @@ $imagen_fija = get_field('iamgen_fija',$ID);
 							<div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper" id="swiper_man2">
 								<div class="parallax-bg" style="background-image: url(<?php bloginfo('template_url'); ?>/assets/img/home/clinica1.jpeg);" data-swiper-parallax="-23%"></div>
 								<div class="swiper-wrapper">
-									<div class="swiper-slide">
-										<div class="capa_swip3">
-											<div class="title_sw3" data-swiper-parallax="-300">Clínica Gutierrez</div>
-											<div class="subtitle_sw3" data-swiper-parallax="-200">
-												<i class="fa fa-map-marker" aria-hidden="true"></i>
-												Querétaro
-											</div>
-											<div class="text_sw3" data-swiper-parallax="-100">
-												<p>
-													Zaragoza #23, San Pedro Gar
-												</p>
 
-												<a href="<?php echo home_url(); ?>/detalle"><button class="btn btn-primary" type="button">Ver más</button></a>
+                                <?php 
+								if (have_posts()) : while ( $clinicas->have_posts() ) : $clinicas->the_post();
+									//base info
+									$title = $post->post_title;
+									$id = $post->ID;
+									$imagen=wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
+									//cf
+									$direccion = get_field('direccion',$id);
+									$verificado = get_field('verificado',$id);
+									$email = get_field('email',$id);
+									$telefono_ = get_field('telefono_',$id);
+									$pagina_ = get_field('pagina_', $id);
+                                ?>
+                                        <div class="swiper-slide">
+											<div class="capa_swip3">
+												<div class="title_sw3" data-swiper-parallax="-300"><?php echo $title; ?></div>
+												<div class="subtitle_sw3" data-swiper-parallax="-200">
+													<i class="fa fa-map-marker" aria-hidden="true"></i>
+													Nuevo León
+												</div>
+												<div class="text_sw3" data-swiper-parallax="-100">
+													<p>
+														<?php echo "adela"; ?>
+														
+													</p>
+													<a href="<?php echo home_url(); ?>/detalle"><button class="btn btn-primary" type="button">Ver más</button></a>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="swiper-slide">
-										<div class="capa_swip3">
-											<div class="title_sw3" data-swiper-parallax="-300">Clínica Durango</div>
-											<div class="subtitle_sw3" data-swiper-parallax="-200">
-												<i class="fa fa-map-marker" aria-hidden="true"></i>
-												Nuevo León
-											</div>
-											<div class="text_sw3" data-swiper-parallax="-100">
-												<p>
-													Zaragoza #23, San Pedro Gar
-												</p>
-												<a href="<?php echo home_url(); ?>/detalle"><button class="btn btn-primary" type="button">Ver más</button></a>
-											</div>
-										</div>
-									</div>
-									<div class="swiper-slide">
-										<div class="capa_swip3">
-											<div class="title_sw3" data-swiper-parallax="-300">Clínica Quintana</div>
-											<div class="subtitle_sw3" data-swiper-parallax="-200">
-												<i class="fa fa-map-marker" aria-hidden="true"></i>
-												Morelos
-											</div>
-											<div class="text_sw3" data-swiper-parallax="-100">
-												<p>
-													Zaragoza #23, San Pedro Gar
-												</p>
-												<a href="<?php echo home_url(); ?>/detalle"><button class="btn btn-primary" type="button">Ver más</button></a>
-											</div>
-										</div>
-									</div>
+
+
+								<?php
+                                    
+								endwhile; endif;
+                                 ?>
+								
+
+									
+											
+									
 								</div>
 							</div>
 						</div>
