@@ -50,6 +50,7 @@ $clinicas = new WP_Query($args);
 									//base info
 									$title = $post->post_title;
 									$id = $post->ID;
+									$nombre = $post->post_name;
 									$imagen=wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
 									//cf
 									$direccion = get_field('direccion',$id);
@@ -57,20 +58,19 @@ $clinicas = new WP_Query($args);
 									$email = get_field('email',$id);
 									$telefono_ = get_field('telefono_',$id);
 									$pagina_ = get_field('pagina_', $id);
+									
                                 ?>
                                         <div class="swiper-slide">
 											<div class="capa_swip3">
 												<div class="title_sw3" data-swiper-parallax="-300"><?php echo $title; ?></div>
-												<div class="subtitle_sw3" data-swiper-parallax="-200">
-													<i class="fa fa-map-marker" aria-hidden="true"></i>
-													Nuevo León
-												</div>
+												
 												<div class="text_sw3" data-swiper-parallax="-100">
 													<p>
-														<?php echo "adela"; ?>
+													<i class="fa fa-map-marker" aria-hidden="true"></i>	
+													<?php echo $direccion; ?>
 														
 													</p>
-													<a href="<?php echo home_url(); ?>/detalle"><button class="btn btn-primary" type="button">Ver más</button></a>
+													<a href="<?php echo home_url(); ?>/clinicas_/<?php echo $nombre; ?>"><button class="btn btn-primary" type="button">Ver más</button></a>
 												</div>
 											</div>
 										</div>
