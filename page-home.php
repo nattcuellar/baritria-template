@@ -3,11 +3,14 @@ get_header('home');
 $ID=$post->ID;
 $productos = get_field('productos',$ID);
 //$clinicas = get_field('clinicas',$ID);
-$doctores = get_field('doctores',$ID);
+//$doctores = get_field('doctores',$ID);
 $imagen_fija = get_field('immgen_fija',$ID);
 
 $args = array('post_type' => 'clinicas_');
 $clinicas = new WP_Query($args);
+
+$args2 = array('post_type' => 'doctores_');
+$doctores = new WP_Query($args2);
 
 //$post_ = new WP_Query('post_type=clinicas_');
 
@@ -92,21 +95,24 @@ $clinicas = new WP_Query($args);
 							<div class="row">
 								<div class="swiper mySwiper" id="swiper_man3">
 									<div class="swiper-wrapper">
+									<?php 
+										if (have_posts()) : while ( $doctores->have_posts() ) : $doctores->the_post();
+											//base info
+											$id = $post->ID;
+											$nombre = $post->post_name;
+											$imagen=wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
+
+											
+										?>
 										<div class="swiper-slide">
-											<a href="<?php echo home_url(); ?>/detalle">
-												<img src="<?php bloginfo('template_url'); ?>/assets/img/home/girl.jpg" style="width: 100%; height: 350px; object-fit: cover;" />
+											<a href="<?php echo home_url(); ?>/doctores_/<?php echo $nombre; ?>">
+												<img src="<?php echo $imagen[0]; ?>" style="width: 100%; height: 350px; object-fit: cover;" />
 											</a>
 										</div>
-										<div class="swiper-slide">
-											<a href="<?php echo home_url(); ?>/detalle">
-												<img src="<?php bloginfo('template_url'); ?>/assets/img/home/boy1.jpg" style="width: 100%; height: 350px; object-fit: cover;" />
-											</a>
-										</div>
-										<div class="swiper-slide">
-											<a href="<?php echo home_url(); ?>/detalle">
-												<img src="<?php bloginfo('template_url'); ?>/assets/img/home/boy2.jpg" style="width: 100%; height: 350px; object-fit: cover;" />
-											</a>
-										</div>
+										<?php
+										endwhile; endif;
+										?>
+									
 									</div>
 								</div>
 							</div>
