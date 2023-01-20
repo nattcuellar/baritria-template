@@ -14,6 +14,10 @@
     $mapa = get_field('mapa', $id);
     $facebook = get_field("facebook", $id);
     $linkedIn = get_field("linkedIn", $id);
+    $content_post = get_post($id);
+	        $content = $content_post->post_content;
+	        $content = apply_filters('the_content', $content);
+	        $content = str_replace(']]>', ']]&gt;', $content);
 
 ?>
 <div class="main-inner">
@@ -94,15 +98,7 @@
                         </div><!-- /.detail-vcard -->
 
                         <div class="detail-description">
-                            <p>Vestibulum a lectus ullamcorper, dapibus ante id, sagittis libero. In
-                                tincidunt nisi venenatis, ornare eros at, hendrerit sem. Nunc metus purus,
-                                porta a dignissim vel, vulputate sed odio. Aenean est nisi, pulvinar eget
-                                velit quis, placerat hendrerit arcu. Vestibulum non dictum nibh.</p>
-                            <p>In congue mattis felis, non hendrerit orci dictum id. Etiam consequat nulla
-                                vitae tempus interdum.Nam gravida convallis lacus, at dignissim urna
-                                pulvinar sed.</p>
-                            <p>Cras ac mi odio. Aliquam erat volutpat. Cras euismod facilisis ligula in
-                                tristique. Proin et eleifend lacus, vitae dictum orci</p>
+                            <p> <?php echo $content  ?> </p>
                         </div>
 
                         <div class="detail-follow">

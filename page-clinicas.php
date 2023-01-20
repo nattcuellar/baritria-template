@@ -2,7 +2,8 @@
 get_header('home'); 
 $ID=$post->ID;
 $galeria = get_field('galeria',$ID);
-//print_r($ID);
+$args2 = array('post_type' => 'clinicas_');
+$doctores = new WP_Query($args2);
 
 ?>
 
@@ -47,134 +48,79 @@ $galeria = get_field('galeria',$ID);
         <h2 class="page-title">
             3 Resultados
         </h2><!-- /.page-title -->
-
         <div class="cards-row">
+            <?php 
+            if (have_posts()) : while ( $doctores->have_posts() ) : $doctores->the_post();
+                //base info
+                $title = $post->post_title;
+                $id = $post->ID;
+                $nombre = $post->post_name;
+                $imagen=wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
+                $content_post = get_post($id);
+                $content = $content_post->post_content;
+                $content = apply_filters('the_content', $content);
+                $content = str_replace(']]>', ']]&gt;', $content);
+                $content = substr($content, 0, 200);
 
-            <div class="card-row">
-                <div class="card-row-inner">
-                    <div class="card-row-image" data-background-image="<?php bloginfo('template_url'); ?>/assets/img/home/clinica1.jpeg">
-                        <div class="card-row-label"><a href="<?php echo home_url(); ?>/detalle">Clínica</a></div>
-                        <!-- /.card-row-label -->
+                //cf
+                $direccion = get_field('direccion',$id);
+                $verificado = get_field('verificado',$id);
+                $email = get_field('email',$id);
+                $telefono_ = get_field('telefono_',$id);
+                $pagina_ = get_field('pagina_', $id);
+            
 
-                        <div class="card-row-price">Certificado</div>
+                
+            ?>
+                <div class="card-row">
+                    <div class="card-row-inner">  
+                        <div 
+                            class="card-row-image" 
+                            data-background-image="<?php echo $imagen[0]; ?>"
+                        >
+                            <div class="card-row-label"><a href="<?php echo home_url(); ?>/clinicas_/<?php echo $nombre; ?>">Clínica</a></div>
+                            <!-- /.card-row-label -->
+                            <?php if($verificado){ ?>
+                            <div class="card-row-price"> Verificado</div>
+                            <?php } ?>
 
-                    </div><!-- /.card-row-image -->
+                        </div><!-- /.card-row-image -->
 
-                    <div class="card-row-body">
-                        <h2 class="card-row-title"><a href="<?php echo home_url(); ?>/detalle">Clínica Rodriguez</a></h2>
-                        <div class="card-row-content">
-                            <p>And why did 'I' have to take a cab? Bender, quit destroying the universe!
-                                I've been there. My folks were always on me to groom myself and...</p>
-                        </div><!-- /.card-row-content -->
-                    </div><!-- /.card-row-body -->
+                        <div class="card-row-body">
+                            <h2 class="card-row-title"><a href="<?php echo home_url(); ?>/clinicas_/<?php echo $nombre; ?>"> <?php echo $title  ?> </a></h2>
+                            <div class="card-row-content">
+                                <p> <?php echo $content  ?>...</p>
+                            </div><!-- /.card-row-content -->
+                        </div><!-- /.card-row-body -->
 
-                    <div class="card-row-properties">
-                        <dl>
-
-
-                            <dd>Categoría</dd>
-                            <dt>Clínica</dt>
-
-
-
-                            <dd>Ubicación</dd>
-                            <dt>San Juan, Querétaro</dt>
-
-
-                            <dd>Calificación</dd>
-                            <dt>
-                                <div class="card-row-rating">
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                </div><!-- /.card-row-rating -->
-                            </dt>
-                        </dl>
-                    </div><!-- /.card-row-properties -->
-                </div><!-- /.card-row-inner -->
-            </div><!-- /.card-row -->
-
-            <div class="card-row">
-                <div class="card-row-inner">
-                    <div class="card-row-image" data-background-image="<?php bloginfo('template_url'); ?>/assets/img/home/clinica1.jpeg">
-                        <div class="card-row-label"><a href="<?php echo home_url(); ?>/detalle">Clínica</a></div>
-                        <!-- /.card-row-label -->
+                        <div class="card-row-properties">
+                            <dl>
 
 
-
-                    </div><!-- /.card-row-image -->
-
-                    <div class="card-row-body">
-                        <h2 class="card-row-title"><a href="<?php echo home_url(); ?>/detalle">Clínica Rodriguez</a></h2>
-                        <div class="card-row-content">
-                            <p>And why did 'I' have to take a cab? Bender, quit destroying the universe!
-                                I've been there. My folks were always on me to groom myself and...</p>
-                        </div><!-- /.card-row-content -->
-                    </div><!-- /.card-row-body -->
-
-                    <div class="card-row-properties">
-                        <dl>
-
-
-                            <dd>Categoría</dd>
-                            <dt>Clínica</dt>
+                                <dd>Categoría</dd>
+                                <dt>Clínica</dt>
 
 
 
-                            <dd>Ubicación</dd>
-                            <dt>San Juan, Querétaro</dt>
+                                <dd>Dirección</dd>
+                                <dt> <?php echo $direccion ?></dt>
 
 
-                            <dd>Calificación</dd>
-                            <dt>
-                                <div class="card-row-rating">
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                </div><!-- /.card-row-rating -->
-                            </dt>
-                        </dl>
-                    </div><!-- /.card-row-properties -->
-                </div><!-- /.card-row-inner -->
-            </div><!-- /.card-row -->
+                                <dd>Calificación</dd>
+                                <dt>
+                                    <div class="card-row-rating">
+                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                    </div><!-- /.card-row-rating -->
+                                </dt>
+                            </dl>
+                        </div><!-- /.card-row-properties -->
+                    </div><!-- /.card-row-inner -->
+                </div><!-- /.card-row -->
+            <?php
+            endwhile; endif;
+            ?>
 
-            <div class="card-row">
-                <div class="card-row-inner">
-                    <div class="card-row-image" data-background-image="<?php bloginfo('template_url'); ?>/assets/img/home/clinica1.jpeg">
-                        <div class="card-row-label"><a href="<?php echo home_url(); ?>/detalle">Clínica</a></div>
-                        <!-- /.card-row-label -->
-
-                        <div class="card-row-price">Certificado</div>
-
-                    </div><!-- /.card-row-image -->
-
-                    <div class="card-row-body">
-                        <h2 class="card-row-title"><a href="<?php echo home_url(); ?>/detalle">Clínica Rodriguez</a></h2>
-                        <div class="card-row-content">
-                            <p>And why did 'I' have to take a cab? Bender, quit destroying the universe!
-                                I've been there. My folks were always on me to groom myself and...</p>
-                        </div><!-- /.card-row-content -->
-                    </div><!-- /.card-row-body -->
-
-                    <div class="card-row-properties">
-                        <dl>
-
-
-                            <dd>Categoría</dd>
-                            <dt>Clínica</dt>
-
-
-
-                            <dd>Ubicación</dd>
-                            <dt>San Juan, Querétaro</dt>
-
-
-                            <dd>Calificación</dd>
-                            <dt>
-                                <div class="card-row-rating">
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                </div><!-- /.card-row-rating -->
-                            </dt>
-                        </dl>
-                    </div><!-- /.card-row-properties -->
-                </div><!-- /.card-row-inner -->
-            </div><!-- /.card-row -->
+          
 
         </div><!-- /.cards-row -->
 

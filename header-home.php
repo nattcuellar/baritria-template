@@ -117,7 +117,7 @@
 									</li>
 
 									<li class="">
-										<a href="<?php echo home_url(); ?>/clinica">Clínicas</a>
+										<a href="<?php echo home_url(); ?>/clinicas">Clínicas</a>
 									</li>
 
 									<li class="">
